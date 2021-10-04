@@ -75,7 +75,17 @@ export const linksListener: ListenerInt = {
           `${message.author.username}#${message.author.discriminator}`,
           message.author.displayAvatarURL()
         );
-        await message.channel.send({ embeds: [linkEmbed] });
+        await message.channel.send({ embeds: [linkEmbed] }).then(async ()=>{
+          const sendMessage = new MessageEmbed();
+          sendMessage.setTitle("Invalid Message");
+          sendMessage.setDescription("The folowing message was found invalid " + message.content)
+          sendMessage.setAuthor(
+            `${message.author.username}#${message.author.discriminator}`,
+            message.author.displayAvatarURL()
+          );
+          await message.author.send({ embeds: [sendMessage]})
+        }).catch(()=>null);
+
       }
     } catch (err) {
       beccaErrorHandler(
